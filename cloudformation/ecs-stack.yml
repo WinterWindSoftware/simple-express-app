@@ -11,11 +11,11 @@ Parameters:
     Description: Select at two subnets in your selected VPC.
   DesiredCapacity:
     Type: Number
-    Default: '1'
+    Default: '2'
     Description: Number of instances to launch in your ECS cluster.
   MaxSize:
     Type: Number
-    Default: '1'
+    Default: '3'
     Description: Maximum number of instances that can be launched in your ECS cluster.
   ContainerPort:
     Type: Number
@@ -31,9 +31,9 @@ Parameters:
       c3.2xlarge, c3.4xlarge, c3.8xlarge, r3.large, r3.xlarge, r3.2xlarge, r3.4xlarge,
       r3.8xlarge, i2.xlarge, i2.2xlarge, i2.4xlarge, i2.8xlarge]
     ConstraintDescription: Please choose a valid instance type.
-  EcsImage:
-    Type: "AWS::ECR::Repository"
-    Description: "Docker image to use for app"
+  EcsImageUri:
+    Type: String
+    Description: "URI to the Docker image to use for app (e.g. in ECR or DockerHub)"
 Mappings:
   AWSRegionToAMI:
     us-east-1:
@@ -90,23 +90,23 @@ Resources:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: !Join ['-', [ECSLogGroup, !Ref 'AWS::StackName']]
-      RetentionInDays: 14
+      RetentionInDays: 30
   taskdefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: !Join ['', [!Ref 'AWS::StackName', -ecs-taskdef]]
+      Family: !Sub '{AWS::StackName}_taskdef'
       ContainerDefinitions:
-      - Name: !Sub '{AWS::StackName}-task'
+      - Name: !Sub '{AWS::StackName}_task'
         Cpu: '10'
         Essential: 'true'
-        Image: !Ref EcsImage
+        Image: !Ref EcsImageUri
         Memory: '300'
         LogConfiguration:
           LogDriver: awslogs
           Options:
             awslogs-group: !Ref 'CloudwatchLogsGroup'
             awslogs-region: !Ref 'AWS::Region'
-            awslogs-stream-prefix: !Sub '{AWS::StackName}-logs'
+            awslogs-stream-prefix: !Sub '{AWS::StackName}_logs'
         PortMappings:
         - ContainerPort: !Ref 'ContainerPort'
   ECSALB:
