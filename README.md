@@ -7,8 +7,11 @@ Basic Express.js web app used to demonstrate containerisation of a web app and d
 - You have an existing AWS account and the [AWS CLI](https://aws.amazon.com/cli/) installed.
 
 ## Create ECR Repository
-1) Open [ECR Console](https://console.aws.amazon.com/ecs/home#/repositories)
-2) Create a new repository using the name of the Docker image (in this case it's `winterwindsoftware/simple-express-app`)
+```
+./docker-task.sh createrepo
+```
+
+This will create a new repository using the name of the Docker image (in this case it's `winterwindsoftware/simple-express-app`). You can then open the [ECR Console](https://console.aws.amazon.com/ecs/home#/repositories) to verify that is was created.
 
 ## Build Docker image
 ```

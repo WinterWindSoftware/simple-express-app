@@ -40,6 +40,11 @@ pushImage () {
     docker push $FULLY_QUALIFIED_IMAGE_NAME:$IMAGE_VERSION
 }
 
+createRepo () {
+    aws ecr create-repository --repository-name $IMAGE_NAME
+    echo Created ECR repository: $IMAGE_NAME.
+}
+
 # Shows the usage for the script.
 showUsage () {
     echo "Description:"
@@ -49,6 +54,7 @@ showUsage () {
     echo "    build: Builds a Docker image ('$IMAGE_NAME')."
     echo "    run: Runs a container based on an existing Docker image ('$IMAGE_NAME')."
     echo "    buildrun: Builds a Docker image and runs the container."
+    echo "    createrepo: Creates new ECR repo called '$IMAGE_NAME'"
     echo "    push: Pushs the image '$IMAGE_NAME' to an image repository"
     echo ""
     echo "Example:"
@@ -74,6 +80,9 @@ else
              ;;
       "push")
              pushImage
+             ;;
+      "createrepo")
+             createRepo
              ;;
       "buildrun")
              buildImage
