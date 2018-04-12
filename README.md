@@ -39,6 +39,7 @@ This will upload your file to the ECS repository. You should be able to view it 
 aws cloudformation deploy \
     --stack-name SimpleExpressApp \
     --template-file ./cloudformation/ecs-webapp-stack.yml \
+    --capabilities CAPABILITY_IAM \
     --parameter-overrides KeyName=aws-ec2 \
     VpcId='vpc-56a0db32' \
     SubnetId='subnet-2aca635c,subnet-4e0bf764,subnet-6654943e,subnet-ce8c1ff3' \
