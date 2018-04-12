@@ -4,7 +4,11 @@ Basic Express.js web app used to demonstrate containerisation of a web app and d
 ## Pre-requisites
 - Install [Docker for Mac](https://www.docker.com/docker-mac)
 - Make the docker-task bash file executable by running: `chmod +x ./docker-task.sh`
-- AWS account exists and a repository has been created in [ECR](https://console.aws.amazon.com/ecs/home#/repositories).
+- You have an existing AWS account and the [AWS CLI](https://aws.amazon.com/cli/) installed.
+
+## Create ECR Repository
+1) Open [ECR Console](https://console.aws.amazon.com/ecs/home#/repositories)
+2) Create a new repository using the name of the Docker image (in this case it's `winterwindsoftware/simple-express-app`)
 
 ## Build Docker image
 ```
