@@ -4,6 +4,7 @@
 # Variables
 IMAGE_NAME="winterwindsoftware/simple-express-app"
 CONTAINER_NAME="simple-express-app_dev"
+AWS_REGION="us-east-1"
 REPOSITORY_PATH="856405715088.dkr.ecr.us-east-1.amazonaws.com" #TODO: set this to the path of your ECS repository
 FULLY_QUALIFIED_IMAGE_NAME="$REPOSITORY_PATH/$IMAGE_NAME"
 HOST_PORT=9999
@@ -30,8 +31,11 @@ runContainer () {
     echo Container started. Open browser at http://localhost:$HOST_PORT .
 }
 
+# Pushes the latest version of the image both with the `latest` and specific version tags
 pushImage () {
-    eval "$(aws ecr get-login --no-include-email)"
+    docker tag $IMAGE_NAME:latest $FULLY_QUALIFIED_IMAGE_NAME:latest
+    docker tag $IMAGE_NAME:$IMAGE_VERSION $FULLY_QUALIFIED_IMAGE_NAME:$IMAGE_VERSION
+    eval "$(aws ecr get-login --no-include-email --region $AWS_REGION)"
     docker push $FULLY_QUALIFIED_IMAGE_NAME:latest
     docker push $FULLY_QUALIFIED_IMAGE_NAME:$IMAGE_VERSION
 }
