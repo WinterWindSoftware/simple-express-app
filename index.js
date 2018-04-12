@@ -1,11 +1,23 @@
 const express = require('express');
+const moment = require('moment');
 const { version } = require('./package.json');
 
 const PORT = 8080;
 
+const STARTUP_TIME = moment();
+
 const app = express();
 app.get('/', (req, res) => {
-    res.send(`Hello world!\n App version ${version}`);
+    res.send(`<!DOCTYPE html>\n
+        <html>\n
+        <head><title>SimpleExpressApp</title></head>\n
+        <body>\n
+        <p>Hello world!</p>
+        <p>App version ${version}</p>
+        <p>App started ${STARTUP_TIME.fromNow()}.</p>
+        </body>\n
+        </html>
+    `);
 });
 app.get('/health', (req, res) => {
     res.json({ healthy: true });
