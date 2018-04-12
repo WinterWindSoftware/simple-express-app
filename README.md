@@ -32,3 +32,20 @@ Open a browser to http://localhost:9999/ and verify that "Hello world" is displa
 2. Save the file and then run `./docker-task.sh push`
 
 This will upload your file to the ECS repository. You should be able to view it in the [AWS Console](https://console.aws.amazon.com/ecs/home#/repositories).
+
+## Deploy CloudFormation Stack
+
+```
+aws --region us-east-1 cloudformation deploy \
+    --stack-name SimpleExpressApp \
+    --template-body file://./cloudformation/ecs-webapp-stack.yml \
+    --parameters ParameterKey=KeyName,ParameterValue=aws-ec2 \
+        ParameterKey=VpcId,ParameterValue=vpc-56a0db32 \
+        ParameterKey=SubnetId,ParameterValue=subnet-2aca635c,subnet-4e0bf764,subnet-6654943e,subnet-ce8c1ff3 \
+        ParameterKey=ContainerPort,ParameterValue=8080 \
+        ParameterKey=DesiredCapacity,ParameterValue=2 \
+        ParameterKey=EcsImageUri,ParameterValue=856405715088.dkr.ecr.us-east-1.amazonaws.com/winterwindsoftware/simple-express-app \
+        ParameterKey=InstanceType,ParameterValue=t2.micro \
+        ParameterKey=MaxSize,ParameterValue=3
+
+```
