@@ -1,6 +1,6 @@
 {
   "name": "simple-express-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Minimal Express web app to demonstrate Dockerising",
   "main": "index.js",
   "scripts": {
