@@ -32,6 +32,3 @@ Open a browser to http://localhost:9999/ and verify that "Hello world" is displa
 2. Save the file and then run `./docker-task.sh push`
 
 This will upload your file to the ECS repository. You should be able to view it in the [AWS Console](https://console.aws.amazon.com/ecs/home#/repositories).
-
-## Create CloudFormation Stack
-
