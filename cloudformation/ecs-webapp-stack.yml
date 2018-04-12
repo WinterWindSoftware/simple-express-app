@@ -36,24 +36,39 @@ Parameters:
     Description: "URI to the Docker image to use for app (e.g. in ECR or DockerHub)"
 Mappings:
   AWSRegionToAMI:
+  # amzn-ami-2017.09.l-amazon-ecs-optimized
+  # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
     us-east-1:
-      AMIID: ami-eca289fb
+      AMIID: ami-aff65ad2
     us-east-2:
-      AMIID: ami-446f3521
-    us-west-1:
-      AMIID: ami-9fadf8ff
+      AMIID: ami-64300001
     us-west-2:
-      AMIID: ami-7abc111a
+      AMIID: ami-40ddb938
+    us-west-1:
+      AMIID: ami-69677709
+    eu-west-3:
+      AMIID: ami-250eb858
+    eu-west-2:
+      AMIID: ami-2218f945
     eu-west-1:
-      AMIID: ami-a1491ad2
+      AMIID: ami-2d386654
     eu-central-1:
-      AMIID: ami-54f5303b
+      AMIID: ami-9fc39c74
+    ap-northeast-2:
+      AMIID: ami-9d56f9f3
     ap-northeast-1:
-      AMIID: ami-9cd57ffd
-    ap-southeast-1:
-      AMIID: ami-a900a3ca
+      AMIID: ami-a99d8ad5
     ap-southeast-2:
-      AMIID: ami-5781be34
+      AMIID: ami-efda148d
+    ap-southeast-1:
+      AMIID: ami-846144f8
+    ca-central-1:
+      AMIID: ami-897ff9ed
+    ap-south-1:
+      AMIID: ami-72edc81d
+    sa-east-1:
+      AMIID: ami-4a7e2826
+
 Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
@@ -155,6 +170,8 @@ Resources:
       Protocol: HTTP
       UnhealthyThresholdCount: 2
       VpcId: !Ref 'VpcId'
+      Targets:
+        - Id:
   ECSAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
