@@ -170,8 +170,6 @@ Resources:
       Protocol: HTTP
       UnhealthyThresholdCount: 2
       VpcId: !Ref 'VpcId'
-      Targets:
-        - Id:
   ECSAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
@@ -205,7 +203,7 @@ Resources:
     DependsOn: ALBListener
     Properties:
       Cluster: !Ref 'ECSCluster'
-      DesiredCount: '1'
+      DesiredCount: !Ref 'DesiredCapacity'
       LoadBalancers:
       - ContainerName: !Sub '${AWS::StackName}-task'
         ContainerPort: !Ref 'ContainerPort'
@@ -231,16 +229,6 @@ Resources:
               'elasticloadbalancing:Describe*', 'elasticloadbalancing:RegisterInstancesWithLoadBalancer',
               'elasticloadbalancing:RegisterTargets', 'ec2:Describe*', 'ec2:AuthorizeSecurityGroupIngress']
             Resource: '*'
-  ServiceScalingTarget:
-    Type: AWS::ApplicationAutoScaling::ScalableTarget
-    DependsOn: service
-    Properties:
-      MaxCapacity: 2
-      MinCapacity: 1
-      ResourceId: !Join ['', [service/, !Ref 'ECSCluster', /, !GetAtt [service, Name]]]
-      RoleARN: !GetAtt [AutoscalingRole, Arn]
-      ScalableDimension: ecs:service:DesiredCount
-      ServiceNamespace: ecs
   EC2Role:
     Type: AWS::IAM::Role
     Properties:
@@ -250,6 +238,8 @@ Resources:
           Principal:
             Service: [ec2.amazonaws.com]
           Action: ['sts:AssumeRole']
+      ManagedPolicyArns:
+          - "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
       Path: /
       Policies:
       - PolicyName: ecs-service
