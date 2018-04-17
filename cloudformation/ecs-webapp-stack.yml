@@ -124,10 +124,10 @@ Resources:
             awslogs-stream-prefix: !Sub '${AWS::StackName}-logs'
         PortMappings:
         - ContainerPort: !Ref 'ContainerPort'
-  ECSALB:
+  ecsalb:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: ECSALB
+      Name: ecsalb
       Scheme: internet-facing
       LoadBalancerAttributes:
       - Key: idle_timeout.timeout_seconds
@@ -141,10 +141,10 @@ Resources:
       DefaultActions:
       - Type: forward
         TargetGroupArn: !Ref 'EcsTargetGroup'
-      LoadBalancerArn: !Ref 'ECSALB'
+      LoadBalancerArn: !Ref 'ecsalb'
       Port: '80'
       Protocol: HTTP
-  ECSALBListenerRule:
+  EcsAlbListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     DependsOn: ALBListener
     Properties:
@@ -158,7 +158,7 @@ Resources:
       Priority: 1
   EcsTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    DependsOn: ECSALB
+    DependsOn: ecsalb
     Properties:
       HealthCheckIntervalSeconds: 10
       HealthCheckPath: /
@@ -278,8 +278,8 @@ Outputs:
     Value: !Ref 'service'
   ecscluster:
     Value: !Ref 'ECSCluster'
-  ECSALB:
+  ecsalb:
     Description: Your ALB DNS URL
-    Value: !Join ['', [!GetAtt [ECSALB, DNSName]]]
+    Value: !Join ['', [!GetAtt [ecsalb, DNSName]]]
   taskdef:
     Value: !Ref 'taskdefinition'
