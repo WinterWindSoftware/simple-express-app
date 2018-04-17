@@ -34,20 +34,20 @@ Open a browser to http://localhost:9999/ and verify that "Hello world" is displa
 This will upload your file to the ECS repository. You should be able to view it in the [AWS Console](https://console.aws.amazon.com/ecs/home#/repositories).
 
 ## Deploy CloudFormation Stack
-This example deploys version 1.0.0 of the simple-express-app image. You will need to update the values of most parameters to match the IDs of VPC/Subnet/ECR URI in your AWS account.
+Open your terminal and run the CLI command below to create your stack. Before running it, you will need to update all values surrounded by angle brackets, e.g. (`<your_vpc_id>`).
+
 ```
 aws cloudformation deploy \
     --stack-name SimpleExpressApp \
     --template-file ./cloudformation/ecs-webapp-stack.yml \
     --capabilities CAPABILITY_IAM \
-    --parameter-overrides KeyName=aws-ec2 \
-    VpcId='vpc-56a0db32' \
-    SubnetId='subnet-2aca635c,subnet-4e0bf764,subnet-6654943e,subnet-ce8c1ff3' \
+    --parameter-overrides KeyName='<your_keypair_id>' \
+    VpcId='<your_vpc_id>' \
+    SubnetId='<your_subnet_id_1>,<your_subnet_id_2>' \
     ContainerPort=8080 \
     DesiredCapacity=2 \
-    EcsImageUri='856405715088.dkr.ecr.us-east-1.amazonaws.com/winterwindsoftware/simple-express-app' \
-    EcsImageVersion='1.0.0' \
+    EcsImageUri='<your_ecr_image_uri>' \
+    EcsImageVersion='<your_app_version_number>' \
     InstanceType=t2.micro \
     MaxSize=3
-
 ```
