@@ -46,6 +46,7 @@ aws cloudformation deploy \
     ContainerPort=8080 \
     DesiredCapacity=2 \
     EcsImageUri='856405715088.dkr.ecr.us-east-1.amazonaws.com/winterwindsoftware/simple-express-app' \
+    EcsImageVersion='1.0.0' \
     InstanceType=t2.micro \
     MaxSize=3
 

@@ -34,6 +34,10 @@ Parameters:
   EcsImageUri:
     Type: String
     Description: "URI to the Docker image to use for app (e.g. in ECR or DockerHub)"
+  EcsImageVersion:
+    Type: String
+    Description: Version of the Docker image to use for app
+    Default: latest
 Mappings:
   AWSRegionToAMI:
   # amzn-ami-2017.09.l-amazon-ecs-optimized
@@ -114,7 +118,7 @@ Resources:
       - Name: !Sub '${AWS::StackName}-task'
         Cpu: '10'
         Essential: 'true'
-        Image: !Ref EcsImageUri
+        Image: !Sub '${EcsImageUri}:${EcsImageVersion}'
         Memory: '300'
         LogConfiguration:
           LogDriver: awslogs
