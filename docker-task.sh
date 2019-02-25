@@ -4,8 +4,9 @@
 # Variables
 IMAGE_NAME="winterwindsoftware/simple-express-app"
 CONTAINER_NAME="simple-express-app_dev"
-AWS_REGION="us-east-1"
-REPOSITORY_PATH="856405715088.dkr.ecr.us-east-1.amazonaws.com" #TODO: set this to the path of your ECS repository
+AWS_REGION=${AWS_REGION-us-east-1} # default to us-east-1
+AWS_ACCOUNT=$(aws sts get-caller-identity --output text --query 'Account')
+REPOSITORY_PATH="${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com"
 FULLY_QUALIFIED_IMAGE_NAME="$REPOSITORY_PATH/$IMAGE_NAME"
 HOST_PORT=9999
 CONTAINER_PORT=8080
